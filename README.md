@@ -1,7 +1,7 @@
-# TSWoW-StoreSystem
+# TSWoW-Store
 
 ## Overview
-This Store System allows players to purchase items using donation points. The system consists of database tables for items and audit tracking and custom packets to glue this all together.
+This store system allows players to purchase items using donation points. The system consists of database tables for items and audit tracking and custom packets to glue this all together.
 
 ## Database Tables
 
