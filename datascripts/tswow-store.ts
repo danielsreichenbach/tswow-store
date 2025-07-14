@@ -16,12 +16,12 @@ std.SQL.Databases.world_dest.writeEarly(`
 
 // Check if donation_points has already been made
 const d = std.SQL.Databases.auth.read(
-  `SELECT NULL FROM information_schema.COLUMNS WHERE \`TABLE_NAME\`='account' AND \`TABLE_SCHEMA\`='auth' AND \`COLUMN_NAME\`='donation_points'`
+  `SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_NAME='account' AND TABLE_SCHEMA=DATABASE() AND COLUMN_NAME='donation_points'`
 );
 if (d.length === 0) {
   // donation_points hasn't been made, so we make it now
   std.SQL.Databases.auth.writeEarly(
-    `ALTER TABLE \`account\` ADD COLUMN donation_points INT DEFAULT 0;`
+    `ALTER TABLE \`account\` ADD COLUMN IF NOT EXISTS donation_points INT DEFAULT 0;`
   );
 }
 
@@ -33,7 +33,6 @@ name VARCHAR(100) NOT NULL,
 description VARCHAR(255) NOT NULL,
 account_id INT UNSIGNED NOT NULL,
 purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (transaction_id),
-FOREIGN KEY (account_id) REFERENCES auth.account(id)
-) ENGINE=INNODB
+PRIMARY KEY (transaction_id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 `);
